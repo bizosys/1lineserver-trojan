@@ -1,7 +1,7 @@
 Usage:
 
 --SHUTDOWN SYSTEM
-http://localhost:8080/1lineserver-trojan/shutdown.html
+http://localhost:8080/1lineserver-trojan/system?type=shutdown
 
 --In Linux boxes, if user is not root need to add the below command in sudoers file, 
 --where -username- is the user profile in which the box is running
@@ -9,4 +9,7 @@ http://localhost:8080/1lineserver-trojan/shutdown.html
 -username- ALL = NOPASSWD: /sbin/shutdown
 
 --OPEN NEW FIREFOX BROWSER WITH "http://mail.google.com"
-http://localhost:8080/1lineserver-trojan/email.html
+http://localhost:8080/1lineserver-trojan/system?type=email
+
+--OPEN NEW FIREFOX BROWSER WITH CUSTOM URL
+http://localhost:8080/1lineserver-trojan/system?type=email&openURL=http://mail.google.com

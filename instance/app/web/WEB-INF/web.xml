@@ -7,24 +7,14 @@
 	<description></description>
 	
 	<servlet>
-		<servlet-name>ShutdownServlet</servlet-name>
-		<servlet-class>com.bizosys.oneline.server.ShutdownServlet</servlet-class>
+		<servlet-name>SystemServlet</servlet-name>
+		<servlet-class>com.bizosys.oneline.server.SystemServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
 	</servlet>
-
-	<servlet>
-		<servlet-name>EmailServlet</servlet-name>
-		<servlet-class>com.bizosys.oneline.server.EmailServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-	</servlet>
-
+	
 	 <servlet-mapping>
-        <servlet-name>ShutdownServlet</servlet-name>
-        <url-pattern>/shutdown.html/*</url-pattern>
+        <servlet-name>SystemServlet</servlet-name>
+        <url-pattern>/system/*</url-pattern>
     </servlet-mapping>
 	
-	<servlet-mapping>
-        <servlet-name>EmailServlet</servlet-name>
-        <url-pattern>/email.html/*</url-pattern>
-    </servlet-mapping>
 </web-app>

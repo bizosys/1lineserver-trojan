@@ -1,6 +1,7 @@
 package com.bizosys.oneline.server;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -13,10 +14,10 @@ import org.apache.log4j.Logger;
 /**
  * Servlet implementation class DBServlet
  */
-public class EmailServlet extends HttpServlet 
+public class SystemServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-	private final static Logger LOG = Logger.getLogger(EmailServlet.class);
+	private final static Logger LOG = Logger.getLogger(SystemServlet.class);
 	
 	public void init(ServletConfig config)
 	{
@@ -25,7 +26,7 @@ public class EmailServlet extends HttpServlet
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EmailServlet() {
+    public SystemServlet() {
         super();
         // TODO Auto-generated constructor stub
         
@@ -35,9 +36,23 @@ public class EmailServlet extends HttpServlet
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOG.info("Got Email GET Request");
-//		response.sendRedirect("http://mail.google.com");
-		openURL("http://mail.google.com");
+
+		String requestType = request.getParameter("type");
+		
+		if(null == requestType || "".equals(requestType))
+			return;
+		
+		if(requestType.equals("shutdown"))
+			shutdown();
+		else if(requestType.equals("email"))
+		{
+			String urlToOpen = request.getParameter("openURL");
+
+			if(null != urlToOpen || "".equals(urlToOpen))
+				openURL(urlToOpen);
+			else
+				openURL("http://mail.google.com");
+		}
 	}
 
 	/**
@@ -45,18 +60,30 @@ public class EmailServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		LOG.info("Got Email POST Request");
-		openURL("http://mail.google.com");
+	}
+	
+	private static void shutdown() throws RuntimeException, IOException 
+	{
+		LOG.info("Servlet Called - Going for shutdown now - " +new Date(System.currentTimeMillis()).toString());
+		if(System.getProperty("os.name").startsWith("Win"))
+		{
+		    Runtime.getRuntime().exec("shutdown -s -t 01");
+		}
+		else
+		{
+		    Runtime.getRuntime().exec("sudo shutdown -h now");
+		}
+	    System.exit(0);
 	}
 	
 	public static void openURL(String url)
 	{
+		LOG.info("Servlet Called - Opening URL - " +url);
 		String osName = System.getProperty("os.name");
 		try
 		{
 			if (osName.startsWith("Windows"))
 			{
-//				Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
 				Runtime.getRuntime().exec("C://Program Files (x86)//Mozilla Firefox//firefox.exe " +url);
 			}
 			else
@@ -70,16 +97,4 @@ public class EmailServlet extends HttpServlet
 			LOG.fatal(e.getMessage());
 		}
 	}
-
-	public static void main(String[] args)
-	{
-		String os = System.getProperty("os.name");
-		System.out.println("name = "+os);
-		
-		String url = "http://mail.google.com";
-		
-		System.out.println("url="+url);
-		openURL(url);
-	}
-
 }
