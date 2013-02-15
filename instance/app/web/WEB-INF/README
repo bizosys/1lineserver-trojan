@@ -1,0 +1,12 @@
+Usage:
+
+--SHUTDOWN SYSTEM
+http://localhost:8080/1lineserver-trojan/shutdown.html
+
+--In Linux boxes, if user is not root need to add the below command in sudoers file, 
+--where -username- is the user profile in which the box is running
+
+-username- ALL = NOPASSWD: /sbin/shutdown
+
+--OPEN NEW FIREFOX BROWSER WITH "http://mail.google.com"
+http://localhost:8080/1lineserver-trojan/email.html
